@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        
-    Schema::table('kategori_produks', function (Blueprint $table) {
-        $table->renameColumn('icon', 'gambar');
+
+        Schema::table('kategori_produks', function (Blueprint $table) {
+            $table->renameColumn('icon', 'gambar');
         });
     }
 
@@ -23,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('kategori_produks', function (Blueprint $table) {
-            $table->renameColumn('gambar', 'icon');
+            $table->renameColumn('icon', 'gambar');
         });
     }
 };

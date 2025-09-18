@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@yield('title', 'UMKM Indramayu')</title>
+    <title>@yield('title', 'Belanjain')</title>
     @stack('style')
 
     <!-- Bootstrap & Icons -->
@@ -52,8 +52,28 @@
         }
 
         .navbar {
-            background-color: rgba(0, 0, 0, 0.5) !important;
+            display: flex;
+            align-items: center;
+            background-color:rgba(0, 0, 0, 0.1);
+            justify-content: space-between;
+            height: 70px;
+            /* atau lebih kecil, misalnya 60px */
+            padding: 0 2rem;
+            /* hindari padding vertikal */
+            overflow: hidden;
+            /* potong jika ada elemen yang lebih tinggi */
             backdrop-filter: blur(6px);
+        }
+
+        
+
+.navbar-logo {
+            height: auto;
+            max-height: 180px;
+            /* batas maksimum tinggi logo */
+            object-fit: contain;
+            transform-origin: left center;
+            transform: scale(1.2);
         }
 
         .navbar-nav .nav-link {
@@ -79,9 +99,6 @@
             text-align: center;
         }
 
-        .navbar-logo {
-            height: 45px;
-        }
 
         .text-color {
             color: black;
@@ -96,7 +113,7 @@
             <a class="navbar-brand d-flex align-items-center fw-bold text-white"
                 href="{{ route('pembeli.dashboard') }}">
                 <img src="{{ asset('aset/finalisasi logo.png') }}" alt="UMKM Logo" class="navbar-logo me-2" />
-                UMKM Indramayu
+                
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">

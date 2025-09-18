@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UMKM Indramayu</title>
+    <title>Belanjain</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -14,13 +14,23 @@
             padding: 0;
             font-family: 'Segoe UI', sans-serif;
         }
-        
+
 
 
         .navbar-custom {
+            display: flex;
+            align-items: center;
             background-color: white;
-            padding: 1rem 2rem;
+            justify-content: space-between;
+            height: 70px;
+            /* atau lebih kecil, misalnya 60px */
+            padding: 0 2rem;
+            /* hindari padding vertikal */
+            overflow: hidden;
+            /* potong jika ada elemen yang lebih tinggi */
         }
+
+
 
         .navbar-custom .nav-link {
             color: #000;
@@ -41,8 +51,14 @@
         }
 
         .navbar-logo {
-            height: 40px;
+            height: auto;
+            max-height: 180px;
+            /* batas maksimum tinggi logo */
+            object-fit: contain;
+            transform-origin: left center;
+            transform: scale(1.2);
         }
+
 
         .hero {
             position: relative;
@@ -137,9 +153,11 @@
             padding: 2rem 0;
             text-align: center;
         }
+
         .map-responsive {
             overflow: hidden;
-            padding-bottom: 56.25%; /* rasio 16:9 */
+            padding-bottom: 56.25%;
+            /* rasio 16:9 */
             position: relative;
             height: 0;
         }
@@ -151,7 +169,6 @@
             width: 100%;
             position: absolute;
         }
-
     </style>
 </head>
 
@@ -163,7 +180,7 @@
             <a class="navbar-brand fw-bold" href="#">
                 <img src="{{ asset('aset/finalisasi logo.png') }}" alt="Logo UMKM Indramayu"
                     class="navbar-logo img-fluid me-2">
-                UMKM Indramayu
+
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -182,15 +199,15 @@
     </nav>
 
     <!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content" style="margin-right: 20px;">
-        <h1>EXPLORE THE WORLD<br>WITH US.</h1>
-        <div class="mt-4">
-            <a href="#produk" class="btn btn-explore">Explore</a>
-            <a href="#" class="btn-video"><i class="fas fa-play-circle me-2"></i>Watch Video</a>
+    <section class="hero">
+        <div class="hero-content" style="margin-right: 20px;">
+            <h1>EXPLORE THE WORLD<br>WITH US.</h1>
+            <div class="mt-4">
+                <a href="#produk" class="btn btn-explore">Explore</a>
+                <a href="#" class="btn-video"><i class="fas fa-play-circle me-2"></i>Watch Video</a>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
     <!-- Kategori Produk -->
@@ -201,7 +218,8 @@
                 <div class="accordion-item mb-3">
                     <h2 class="accordion-header" id="heading{{ $index }}">
                         <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapse{{ $index }}" aria-expanded="false" aria-controls="collapse{{ $index }}">
+                            data-bs-target="#collapse{{ $index }}" aria-expanded="false"
+                            aria-controls="collapse{{ $index }}">
                             {{ $kategori->nama }}
                         </button>
                     </h2>
@@ -212,31 +230,34 @@
                             <!-- Gambar Kategori -->
                             <div class="mb-3">
                                 <img src="{{ asset('storage/kategori/' . $kategori->gambar) }}"
-                                    alt="{{ $kategori->nama }}" class="img-fluid rounded" style="max-height: 200px; object-fit: cover;">
+                                    alt="{{ $kategori->nama }}" class="img-fluid rounded"
+                                    style="max-height: 200px; object-fit: cover;">
                             </div>
 
                             <!-- Subkategori -->
-                            @if($kategori->subkategoris->count())
+                            @if ($kategori->subkategoris->count())
                                 <h5>Subkategori:</h5>
                                 <ul>
-                                    @foreach($kategori->subkategoris as $sub)
+                                    @foreach ($kategori->subkategoris as $sub)
                                         <li>{{ $sub->nama }}</li>
                                     @endforeach
                                 </ul>
                             @endif
 
                             <!-- Produk -->
-                            @if($kategori->produks->count())
+                            @if ($kategori->produks->count())
                                 <h5 class="mt-3">Produk:</h5>
                                 <div class="row g-3">
-                                    @foreach($kategori->produks->take(3) as $produk)
+                                    @foreach ($kategori->produks->take(3) as $produk)
                                         <div class="col-md-4">
                                             <div class="card h-100">
                                                 <img src="{{ asset('storage/' . $produk->gambar) }}"
-                                                    class="card-img-top" alt="{{ $produk->nama }}" style="height: 180px; object-fit: cover;">
+                                                    class="card-img-top" alt="{{ $produk->nama }}"
+                                                    style="height: 180px; object-fit: cover;">
                                                 <div class="card-body">
                                                     <h6 class="card-title">{{ $produk->nama }}</h6>
-                                                    <p class="card-text">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
+                                                    <p class="card-text">
+                                                        Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
                                                     <a href="{{ route('pembeli.produk.show', $produk->id) }}"
                                                         class="btn btn-sm btn-warning">Lihat Detail</a>
                                                 </div>
@@ -265,7 +286,8 @@
             @forelse($produks as $produk)
                 <div class="col-md-4">
                     <div class="card produk-card">
-                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img-top" alt="{{ $produk->nama }}">
+                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img-top"
+                            alt="{{ $produk->nama }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ $produk->nama }}</h5>
                             <p class="card-text">Rp{{ number_format($produk->harga, 0, ',', '.') }}</p>
@@ -284,23 +306,19 @@
 
     <!-- Tentang Website -->
     <section id="tentang" class="container mt-5">
-    <h2 class="section-title">Tentang Website</h2>
-    <div class="text-center mb-4">
-        <p>Platform ini dibuat untuk memajukan UMKM di Indramayu melalui digitalisasi penjualan produk lokal.</p>
-        <p>Dengan fitur katalog online, pembeli dan penjual dapat terhubung dengan mudah, efisien, dan aman.</p>
-    </div>
-    <div class="map-responsive">
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3551.780347188987!2d108.28970287445466!3d-6.422555593568405!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjUnMjEuMiJTIDEwOMKwMTcnMzIuMiJF!5e1!3m2!1sid!2sid!4v1747576331287!5m2!1sid!2sid" 
-            width="100%" 
-            height="350" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-    </div>
-</section>
+        <h2 class="section-title">Tentang Website</h2>
+        <div class="text-center mb-4">
+            <p>Platform ini dibuat untuk memajukan UMKM di Indramayu melalui digitalisasi penjualan produk lokal.</p>
+            <p>Dengan fitur katalog online, pembeli dan penjual dapat terhubung dengan mudah, efisien, dan aman.</p>
+        </div>
+        <div class="map-responsive">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3551.780347188987!2d108.28970287445466!3d-6.422555593568405!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjUnMjEuMiJTIDEwOMKwMTcnMzIuMiJF!5e1!3m2!1sid!2sid!4v1747576331287!5m2!1sid!2sid"
+                width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
 
 
     <!-- Footer -->

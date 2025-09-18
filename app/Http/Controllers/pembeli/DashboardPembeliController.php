@@ -52,16 +52,36 @@ class DashboardPembeliController extends Controller
         }
 
         // Produk Terlaris (minimal 10 pesanan dengan status 'complete')
-        $produkTerlaris = Produk::select('produks.*', DB::raw('SUM(orders.jumlah) as total_jumlah_pesanan'))
+        $produkTerlaris = Produk::select(
+            'produks.id',
+            'produks.nama',
+            'produks.harga',
+            'produks.kategori_produk_id',
+            'produks.deskripsi',
+            'produks.gambar',
+            'produks.created_at',
+            'produks.updated_at',
+            DB::raw('SUM(orders.jumlah) as total_jumlah_pesanan')
+        )
             ->leftJoin('orders', function ($join) {
                 $join->on('orders.produk_id', '=', 'produks.id')
                     ->where('orders.status', '=', 'complete');
             })
-            ->groupBy('produks.id')
+            ->groupBy(
+                'produks.id',
+                'produks.nama',
+                'produks.harga',
+                'produks.kategori_produk_id',
+                'produks.deskripsi',
+                'produks.gambar',
+                'produks.created_at',
+                'produks.updated_at'
+            )
             ->having('total_jumlah_pesanan', '>=', 10)
             ->orderByDesc('total_jumlah_pesanan')
             ->limit(8)
             ->get();
+
 
         $notifikasiDikirim = collect();
         if (Auth::check()) {
